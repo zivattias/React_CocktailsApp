@@ -5,10 +5,15 @@ import Modal from "@mui/material/Modal";
 import CocktailDisplay from "../CocktailDisplay/CocktailDisplay";
 
 const style = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    height: 500,
     width: 400,
     bgcolor: "background.paper",
     border: "2px solid #000",
@@ -16,6 +21,7 @@ const style = {
     pt: 2,
     px: 4,
     pb: 3,
+    overflowY: "hidden",
 };
 
 export default function SearchResults(props: any) {
@@ -27,15 +33,43 @@ export default function SearchResults(props: any) {
                 aria-labelledby="parent-modal-title"
                 aria-describedby="parent-modal-description"
             >
-                <Box sx={{ ...style }}>
-                    <Typography>Search results for "{props.query}"</Typography>
-                    {results.map((result: any) => (
-                        <CocktailDisplay
-                            key={result["idDrink"]}
-                            cocktailData={result}
-                        ></CocktailDisplay>
-                    ))}
-                    <Button onClick={() => props.handleClose(false)}>
+                <Box
+                    sx={{
+                        ...style,
+                        backdropFilter: "blur(5px)",
+                        WebkitBackdropFilter: "blur(5px)",
+                        background: "rgba(255, 255, 255, 0.5)",
+                        borderRadius: "25px",
+                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                        border: "1px solid rgba(255, 255, 255, 0.16)",
+                    }}
+                >
+                    <Typography
+                        variant="h5"
+                        sx={{ marginY: "0.5em", fontWeight: "bold" }}
+                    >
+                        Search results for "{props.query}":
+                    </Typography>
+                    <Box
+                        sx={{
+                            overflowY: "auto",
+                            height: "80%",
+                            padding: "0.5em",
+                        }}
+                    >
+                        {results.map((result: any) => (
+                            <CocktailDisplay
+                                key={result["idDrink"]}
+                                cocktailData={result}
+                            ></CocktailDisplay>
+                        ))}
+                    </Box>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => props.handleClose(false)}
+                        sx={{ marginTop: "1.5em" }}
+                    >
                         Close
                     </Button>
                 </Box>
