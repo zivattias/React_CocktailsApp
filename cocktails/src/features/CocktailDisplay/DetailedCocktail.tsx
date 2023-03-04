@@ -1,4 +1,4 @@
-import { Box, Typography, Button, IconButton, Link } from "@mui/material";
+import { Box, Typography, Button, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function DetailedCocktail(props: any): JSX.Element {
@@ -6,22 +6,6 @@ export default function DetailedCocktail(props: any): JSX.Element {
     const ingredients = props.ingredients;
     console.log(ingredients);
     return (
-        // <Box
-        //     sx={{
-        //         padding: "1em",
-        //         margin: "auto",
-        //         width: "75%",
-        //         height: "80vh",
-        //         border: "1px solid rgba(255, 255, 255, 0.16)",
-        //         background: "rgba(255, 255, 255, 0.5)",
-        //         borderRadius: "25px",
-        //     }}
-        // >
-        //     <Typography variant="h2">{cocktailData.strDrink}</Typography>
-        //     {ingredients.map((ingredient: string) => {
-        //         return <Typography>{ingredient}</Typography>;
-        //     })}
-        // </Box>
         <Box
             sx={{
                 padding: "1em",
