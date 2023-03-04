@@ -106,7 +106,20 @@ export default function SearchCocktailBox(props: any): JSX.Element {
                 <TextField
                     label="e.g. Negroni / N (case insensitive)"
                     variant="outlined"
-                    sx={{ width: "30em", marginBottom: "1em" }}
+                    sx={{
+                        width: "30em",
+                        marginBottom: "1em",
+                        "& .MuiOutlinedInput-root": {
+                            "&.Mui-focused fieldset": {
+                                borderColor: "black",
+                            },
+                        },
+                        "& .MuiInputLabel-root": {
+                            "&.Mui-focused": {
+                                color: "black",
+                            },
+                        },
+                    }}
                     value={name}
                     onChange={(event) => {
                         setName(event.target.value);
