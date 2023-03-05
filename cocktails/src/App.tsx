@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Outlet } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Section from "./components/Section/Section";
@@ -7,25 +7,33 @@ import DetailedCocktail from "./features/CocktailDisplay/DetailedCocktail";
 
 export default function App(): JSX.Element {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Homepage />}></Route>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<Homepage />} />
                 <Route
-                    path="/cocktail/:cocktailName"
+                    path="cocktail/:cocktailName"
                     element={<CocktailPage />}
                 />
-            </Routes>
-        </BrowserRouter>
+            </Route>
+        </Routes>
+    );
+}
+
+function Layout(): JSX.Element {
+    return (
+        <>
+            <Navbar></Navbar>
+            <Section>
+                <Outlet />
+            </Section>
+        </>
     );
 }
 
 function Homepage(): JSX.Element {
     return (
         <>
-            <Navbar></Navbar>
-            <Section>
-                <Hero></Hero>
-            </Section>
+            <Hero></Hero>
         </>
     );
 }
@@ -35,13 +43,10 @@ function CocktailPage(): JSX.Element {
 
     return (
         <>
-            <Navbar></Navbar>
-            <Section>
-                <DetailedCocktail
-                    cocktailData={state.cocktailData}
-                    ingredients={state.ingredients}
-                ></DetailedCocktail>
-            </Section>
+            <DetailedCocktail
+                cocktailData={state.cocktailData}
+                ingredients={state.ingredients}
+            ></DetailedCocktail>
         </>
     );
 }
