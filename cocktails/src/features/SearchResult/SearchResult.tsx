@@ -25,7 +25,7 @@ const style = {
     overflowY: "hidden",
 };
 
-export default function SearchResults(props: any) {
+export default function SearchResult(props: any) {
     const results = props.results;
     console.log(results);
     return (
