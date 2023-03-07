@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CocktailDisplay from "../CocktailDisplay/CocktailDisplay";
+import { Link } from "react-router-dom";
 
 const style = {
     display: "flex",
@@ -26,6 +27,7 @@ const style = {
 
 export default function SearchResults(props: any) {
     const results = props.results;
+    console.log(results);
     return (
         <div>
             <Modal
@@ -65,9 +67,10 @@ export default function SearchResults(props: any) {
                         ))}
                     </Box>
                     <Button
+                        component={Link}
+                        to={"/"}
                         variant="contained"
                         color="error"
-                        onClick={() => props.handleClose(false)}
                         sx={{ marginTop: "1.5em" }}
                     >
                         Close

@@ -40,7 +40,7 @@ export default function CocktailDisplay(props: any) {
         >
             <Link
                 style={{ textDecoration: "none" }}
-                to={`/cocktail/${props.cocktailData["strDrink"].toLowerCase()}`}
+                to={`/cocktails/${props.cocktailData["idDrink"]}`}
                 state={{
                     cocktailData: props.cocktailData,
                     ingredients: filteredValues,

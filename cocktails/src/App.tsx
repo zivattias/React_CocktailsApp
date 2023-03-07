@@ -4,36 +4,30 @@ import Navbar from "./components/Navbar/Navbar";
 import Section from "./components/Section/Section";
 import Hero from "./features/Hero/Hero";
 import DetailedCocktail from "./features/CocktailDisplay/DetailedCocktail";
+import SearchResultsPage from "./features/SearchResult/SearchResultPage";
 
 export default function App(): JSX.Element {
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route index element={<Homepage />} />
+            <Route path="/" element={<Homepage />}>
                 <Route
-                    path="cocktail/:cocktailName"
-                    element={<CocktailPage />}
+                    path="cocktails/search"
+                    element={<SearchResultsPage />}
                 />
             </Route>
+            <Route path="cocktails/:cocktailId" element={<CocktailPage />} />
         </Routes>
-    );
-}
-
-function Layout(): JSX.Element {
-    return (
-        <>
-            <Navbar></Navbar>
-            <Section>
-                <Outlet />
-            </Section>
-        </>
     );
 }
 
 function Homepage(): JSX.Element {
     return (
         <>
-            <Hero></Hero>
+            <Navbar></Navbar>
+            <Section>
+                <Hero />
+            </Section>
+            <Outlet />
         </>
     );
 }

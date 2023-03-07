@@ -1,19 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Typography, TextField, Divider } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import SearchError from "../SearchError/SearchError";
-import SearchResults from "../SearchResult/SearchResult";
 
 export default function SearchCocktailBox(props: any): JSX.Element {
     const [name, setName] = useState("");
     const [query, setQuery] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [results, setResults] = useState(null);
 
-    // SearchResult modal states
-    const [open, setOpen] = useState(true);
+    const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,23 +32,25 @@ export default function SearchCocktailBox(props: any): JSX.Element {
 
             console.log(endpoint);
             setLoading(true);
-            axios
-                .get(endpoint)
-                .then((response) => {
-                    // No valid results returned
-                    if (!response || response.data.drinks === null) {
-                        setError(true);
-                        setResults(null);
-                    } else {
-                        // Valid results
-                        setResults(response.data.drinks);
-                        setOpen(true);
-                    }
-                })
-                .then(() => {
+            axios.get(endpoint).then((response) => {
+                // No valid results returned
+                if (!response || response.data.drinks === null) {
+                    setError(true);
                     setLoading(false);
                     setName("");
-                });
+                } else {
+                    // Valid results
+                    setLoading(false);
+                    setName("");
+                    endpoint.endsWith("?s=" + name)
+                        ? navigate(`/cocktails/search?name=${name}`, {
+                              state: [response.data.drinks, name],
+                          })
+                        : navigate(`/cocktails/search?first_letter=${name}`, {
+                              state: [response.data.drinks, name],
+                          });
+                }
+            });
         }
     };
 
@@ -139,58 +139,7 @@ export default function SearchCocktailBox(props: any): JSX.Element {
                     Search
                 </LoadingButton>
             </form>
-
-            {/* <Divider sx={{ width: "100%" }}></Divider>
-            <form
-                onSubmit={handleSubmit}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "1em",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontWeight: "bold",
-                        padding: "0.5em",
-                        marginBottom: "0.75em",
-                    }}
-                >
-                    Search cocktails by first letter
-                </Typography>
-                <TextField
-                    label="Cocktail(s) by letter"
-                    variant="outlined"
-                    sx={{ width: "30em", marginBottom: "1em" }}
-                    value={letter}
-                    onChange={(event) => {
-                        setLetter(event.target.value);
-                    }}
-                />
-                <LoadingButton
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    sx={{
-                        maxWidth: "10em",
-                        backgroundColor: "black",
-                        hoverBackgroundColor: "white",
-                    }}
-                >
-                    Search
-                </LoadingButton>
-            </form> */}
             {error && <SearchError query={query}></SearchError>}
-            {results ? (
-                <SearchResults
-                    open={open}
-                    handleClose={setOpen}
-                    query={query}
-                    results={results}
-                ></SearchResults>
-            ) : null}
         </Box>
     );
 }
